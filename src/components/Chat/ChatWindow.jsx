@@ -5,7 +5,7 @@ import './chat.css'
 import Typing from './Typing'
 
 function ChatWindow({ messages, isTyping, setMessages }) {
-  //console.log(messages)
+  // console.log(messages)
   return (
     <ScrollToBottom className='chat_window'>
       {messages.map(message => (

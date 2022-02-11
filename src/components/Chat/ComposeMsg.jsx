@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { nanoid } from 'nanoid'
 import sendMessageToBot from '../../apis/sendMessageToBot'
 import './chat.css'
-
+import { useSpeechRecognition } from 'react-speech-kit';
+import { useSpeechSynthesis } from "react-speech-kit";
 function ComposeMsg({ setMessages, messages, setIsTyping }) {
   const [msg, setMessage] = useState('')
 
@@ -39,10 +40,17 @@ function ComposeMsg({ setMessages, messages, setIsTyping }) {
     setIsTyping(false)
   }
 
+  const valuex = 'hi how are you';
+  const { speak } = useSpeechSynthesis();
   const onKeyUp = e => {
     e.keyCode === 13 && sendMessage()
   }
-
+  const [value, setValue] = useState('');
+  const { listen, listening, stop } = useSpeechRecognition({
+    onResult: (result) => {
+      console.log(result);
+      setValue(result);
+    },});
   return (
     <div className='compose-div'>
       <input placeholder='Enter your message here......' value={msg} onKeyUp={onKeyUp} onChange={e => setMessage(e.target.value)} />
@@ -53,7 +61,20 @@ function ComposeMsg({ setMessages, messages, setIsTyping }) {
           <path d='M3 13h6v-2H3V1.846a.5.5 0 0 1 .741-.438l18.462 10.154a.5.5 0 0 1 0 .876L3.741 22.592A.5.5 0 0 1 3 22.154V13z' fill='rgba(255,255,255,1)' />
         </svg>
       </button>
+      <button onClick={() => speak({ text: valuex })}>
+      Audio</button>
+      <div>
+      <textarea
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+      />
+      <button onMouseDown={listen} onMouseUp={stop}>
+        🎤
+      </button>
+      {listening && <div>Go ahead I'm listening</div>}
     </div>
+    </div>
+    
   )
 }
 

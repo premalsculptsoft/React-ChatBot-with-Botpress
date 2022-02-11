@@ -2,8 +2,8 @@ import axios from 'axios'
 
 export default function sendMessageToBot(data) {
   const BASE_URL = `http://localhost:3000`
-  const BOT_ID = `demo`
-  const USER_ID = `anmol.sculptsoft@gmail.com`
+  const BOT_ID = `trial`
+  const USER_ID = `premal.sculptsoft@gmail.com`
   const URL = `${BASE_URL}/api/v1/bots/${BOT_ID}/converse/${USER_ID}`
   const config = {
     method: 'post',
@@ -18,3 +18,5 @@ export default function sendMessageToBot(data) {
       .catch(error => reject(error))
   })
 }
+
+
